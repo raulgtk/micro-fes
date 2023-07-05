@@ -1,27 +1,30 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const deps = require("../package.json").dependencies;
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common');
-const domain = 'http://localhost:3000'
-const devConfig = {
+const deps = require("../package.json").dependencies;
+const path = require('path');
+
+const proConfig = {
   mode: 'production',
+  //entry: './src/index.js',
   output: {
-    filename: '[name].[contenthash].js',
-    publicPath: '/main/latest/',
+    path: path.resolve(__dirname, '../build'),
+    publicPath: "/portal/",
+    clean: true,
   },
-  resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   plugins: [
     new ModuleFederationPlugin({
       name: "main",
       filename: "remoteEntry.js",
       remotes: {
-        core: `core@${domain}/core/latest/remoteEntry.js`,
-        auth: `auth@${domain}/auth/latest/remoteEntry.js`,
-        ac: `ac@${domain}/ac/latest/remoteEntry.js`,
-        rrhh: `rrhh@${domain}/rrhh/latest/remoteEntry.js`,
+        core: `core@https://dxapsq8x5pc7b.cloudfront.net/portal/core/remoteEntry.js`,
+        auth: `auth@https://dxapsq8x5pc7b.cloudfront.net/portal/auth/remoteEntry.js`
       },
       exposes: {},
       shared: {
@@ -42,4 +45,4 @@ const devConfig = {
   ],
 };
 
-module.exports = merge(commonConfig, devConfig);
+module.exports = merge(commonConfig, proConfig);

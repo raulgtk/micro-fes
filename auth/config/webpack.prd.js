@@ -1,20 +1,22 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const deps = require("./package.json").dependencies;
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { merge } = require('webpack-merge');
 const commonConfig = require('./webpack.common');
+const deps = require("../package.json").dependencies;
+const path = require('path');
 
-const devConfig = {
+const proConfig = {
   mode: 'production',
   output: {
-    publicPath: "http://localhost:8081/",
+    path: path.resolve(__dirname, '../build'),
+    publicPath: "/portal/auth/",
+    // filename: "portal/auth/[name].js",
+    clean: true,
   },
-  resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
-  },
-  devServer: {
-    port: 8081,
-    historyApiFallback: true,
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -22,7 +24,7 @@ const devConfig = {
       filename: "remoteEntry.js",
       remotes: {},
       exposes: {
-        "./AuthApp": "./src/bootstrap"
+        "./bootstrap": "./src/bootstrap",
       },
       shared: {
         ...deps,
@@ -42,4 +44,4 @@ const devConfig = {
   ],
 };
 
-module.exports = merge(commonConfig, devConfig);
+module.exports = merge(commonConfig, proConfig);

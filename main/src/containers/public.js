@@ -6,7 +6,7 @@ const Public = () => (
     <div className="box">
       MAIN APP
     </div>
-    <Link to="/login">
+    <Link to="/portal/login">
       Iniciar sesión
     </Link>
   </div>

@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const Header = ({ isLogin, onLogout }) => {
-  const home = isLogin ? '/home': '/'
+  const home = isLogin ? '/portal/home': '/portal'
   return (
     <div className="header">
       <h1><Link to={home}>Portal UXXI</Link></h1>

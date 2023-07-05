@@ -9,7 +9,7 @@ export const loginRequired = Component => props => {
   useEffect(() => {
     isLogin === true
       ? setLoaded(true)
-      : history.push('/login')
+      : history.push('/portal/login')
   }, [isLogin, history, setLoaded])
   return <Component {...props} loaded={loaded} />
 }
