@@ -41,11 +41,3 @@ ul {
   margin-bottom: 1rem;
   padding: 1rem;
 }
-.icon-power {
-  background:url(/public/icon-power.svg);
-  margin: -12px 0;
-  width:16px; 
-  height:16px;
-  display: block;
-  float: left;
-}
